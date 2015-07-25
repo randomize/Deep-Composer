@@ -22,8 +22,10 @@ message(status "** Boost Libraries: ${Boost_LIBRARY_DIRS}")
 message(status "** Boost Libraries: ${Boost_LIBRARIES}")
 
 include_directories( ${Boost_INCLUDE_DIR} )
+include_directories( ${OPENEXR_INCLUDE_PATHS} )
 # Compiling
-set(SOURCES main.cpp tinyexr/tinyexr.cc )
+set(SOURCES main.cpp)
 add_executable(threads ${SOURCES})
 target_link_libraries(threads  ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES} )
+target_link_libraries(threads  ${OPENEXR_LIBRARIES})
 
