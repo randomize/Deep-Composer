@@ -32,8 +32,8 @@ public:
     void AsciPrint() const;
 
     // Accessors
-    inline Imf::Rgba &PixelAt(int x, int y) { return m_Data[y * m_Size.x + x]; }
     inline const Imf::Rgba &PixelAt(int x, int y) const { return m_Data[y * m_Size.x + x]; }
+    inline Imf::Rgba &PixelAt(int x, int y) { return const_cast<Imf::Rgba&> (static_cast<const Image&>(*this).PixelAt(x,y)); }
 
     // Dimentions
     inline int Width()  const { return m_Size.x; }

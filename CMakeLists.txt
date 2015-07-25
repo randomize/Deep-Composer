@@ -24,7 +24,7 @@ message(status "** Boost Libraries: ${Boost_LIBRARIES}")
 include_directories( ${Boost_INCLUDE_DIR} )
 include_directories( ${OPENEXR_INCLUDE_PATHS} )
 # Compiling
-set(SOURCES main.cpp)
+set(SOURCES main.cpp Image.cpp DepthImage.cpp)
 add_executable(threads ${SOURCES})
 target_link_libraries(threads  ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES} )
 target_link_libraries(threads  ${OPENEXR_LIBRARIES})

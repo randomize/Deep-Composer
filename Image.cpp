@@ -13,23 +13,23 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
 #include "Image.h"
 
-Image::Image(const std::string &pattern) {
+#include <iostream>
 
+Image::Image(const std::string &fileName) {
+
+    auto fn = fileName.c_str();
 
     try {
 
-        Imf::RgbaInputFile in(fileName);
+        Imf::RgbaInputFile in(fn);
 
         Imath::Box2i win = in.dataWindow();
 
-        Imath::V2i dim(win.max.x - win.min.x + 1,
-                win.max.y - win.min.y + 1);
+        Imath::V2i dim(win.max.x - win.min.x + 1, win.max.y - win.min.y + 1);
 
-        printf("Loaded EXR \"%s\", image has %dx%d \n", fileName, dim.x,
-                dim.y);
+        printf("Loaded EXR \"%s\", image has %dx%d \n", fn, dim.x, dim.y);
 
         m_Data.resize(dim.x * dim.y);
 
@@ -41,22 +41,18 @@ Image::Image(const std::string &pattern) {
         m_Size = dim;
 
     } catch (Iex::BaseExc &e) {
-        printf("Error loading EXR from \"%s\" err=%s \n", fileName,
-                e.what());
+        printf("Error loading EXR from \"%s\" err=%s \n", fn, e.what());
         throw;
     }
 }
 
+void Image::AsciPrint() const {
 
-    void Image::AsciPrint() const {
-
-const int W = 80;
-vector<Imf::Rgba> row(W);
-
-        for (int y = 0; y < m_Size.y; ++y)
-            for (int x = 0; x < m_Size.x; ++x) {
-                { auto px = PixelAt(x, y);
-cout << px << endl;
-                }
-            }
-    }
+    // TODO: maybe add fancy low res ascii art out here
+    // for (int y = 0; y < m_Size.y; ++y) {
+    //     for (int x = 0; x < m_Size.x; ++x) {
+    //         auto px = PixelAt(x, y);
+    //         std::cout << px.r+px.g+px.b;
+    //     }
+    // }
+}
