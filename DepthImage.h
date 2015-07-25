@@ -13,15 +13,49 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#ifndef DC_DEPTHIMAGE_H
+#define DC_DEPTHIMAGE_H
+
+
 #include "Image.h"
 
 class DepthImage {
 
+public:
+
+
+
+    /// Constructors
+
+    // Init with color and depth filesnames
+    DepthImage(const std::string &color_filename, const std::string &dept_filename);
+
+    // Init an empty
+    DepthImage();
+
+
+
+
+    /// Interface
+
+    // Replace contents with new ones
+    void EmplaceData(const std::string &color_filename, const std::string &dept_filename);
+
+    // Combine two depth images, (this = this + other)
+    DepthImage &operator+=(const DepthImage &other);
+
+    // Save color channel
+    void SaveToPNG(const std::string &path);
+
+    // Show info
+    void PrintInfo() const ;
+            
+
+
+private:
     Image color;
     Image depth;
-
-    DepthImage(const std::string& color, const std::string& depth);
-
-    DepthImage& operator+= (const DepthImage& oth) ;
-
 };
+
+
+#endif

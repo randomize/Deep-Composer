@@ -27,24 +27,35 @@ class Image {
 
 public:
 
-    Image(const std::string &pattern);
+    /// Constructors
 
-    void AsciPrint() const;
+    // Empty image
+    Image();
 
-    // Accessors
+    // Image with data
+    Image(const std::string &filename);
+
+
+
+
+
+    /// Interface
+
+    // Reuse image's bufer if possible
+    void EmplaceData(const std::string &filename);
+
+    void PrintInfo() const;
+
     inline const Imf::Rgba &PixelAt(int x, int y) const { return m_Data[y * m_Size.x + x]; }
     inline Imf::Rgba &PixelAt(int x, int y) { return const_cast<Imf::Rgba&> (static_cast<const Image&>(*this).PixelAt(x,y)); }
 
-    // Dimentions
     inline int Width()  const { return m_Size.x; }
     inline int Height()  const { return m_Size.y; }
 
+    void SaveToPNG(const std::string& filename);
+
 private:
-
-    // Data
     std::vector<Imf::Rgba> m_Data;
-
-    // Dimensions
     Imath::V2i m_Size;
 };
 
