@@ -1,7 +1,5 @@
 
 
-// #include "tinyexr/tinyexr.h"
-
 #include <string>
 #include <vector>
 #include <iostream>
@@ -10,60 +8,29 @@
 
 #include <ImfRgbaFile.h>
 
-namespace Patterns {
-    const char *InputColorPattern = "out.VRayZDepth.%04d.exr";
-    const char *InputDepthPattern = "out.VRayZDepth.%04d.exr";
-    const size_t MAX_PATTERN_LEN = 255;
+#include "Image.h"
+
+
+const std::string InputColorPattern = "out.RGB_color.%04d.exr";
+const std::string InputDepthPattern = "out.VRayZDepth.%04d.exr";
+const size_t MAX_PATTERN_LEN = 255;
+
+
+// Forms a name
+std::string PatternToName(const std::string& pattern, int index) {
+    char fileName[255];
+    snprintf(fileName, 255, pattern.c_str(), 1);
+    return std::string( fileName );
 }
 
-void LeadZeros() {}
+int main(int argc, char *argv[]) {
 
-void LoadImage(const char *pattern, size_t index) {
+    printf("\n=============================\n");
+    printf("Randy depth composer utility\n");
+    printf("Usage : dcompose <number of frames>\n");
+    printf("\n");
 
-    // Form a name
-    static char fileName[Patterns::MAX_PATTERN_LEN];
-    snprintf(fileName, Patterns::MAX_PATTERN_LEN, pattern, index);
-
-    std::vector<Imf::Rgba> pixelBuffer;
-
-
-    try
-    {
-        Imf::RgbaInputFile in(fileName);
-
-
-        Imath::Box2i win = in.dataWindow();
-
-        Imath::V2i dim(win.max.x - win.min.x + 1,
-                win.max.y - win.min.y + 1);
-
-        printf("Loaded EXR \"%s\", image has %dx%d ", fileName, dim.x, dim.y);
-
-        pixelBuffer.resize(dim.x * dim.y);
-
-        int dx = win.min.x;
-        int dy = win.min.y;
-
-        in.setFrameBuffer(pixelBuffer.data() - dx - dy * dim.x, 1, dim.x);
-        in.readPixels(win.min.y, win.max.y);
-    }
-    catch(Iex::BaseExc & e)
-    {
-        printf("Error loading EXR from \"%s\" err=%s", fileName, e.what());
-        return;
-    }
-
-
-}
-
-int main(int argc, char *argv[]) { 
-
-    printf("Randy depth composer utility");
-    printf("Usage : dcompose <number of frames>");
-
-
-    LoadImage( Patterns::InputDepthPattern, 1 );
+    Image depth(fileName);
 
     return 0;
-
 }
