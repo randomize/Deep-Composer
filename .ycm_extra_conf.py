@@ -77,6 +77,8 @@ flags = [
 '-isystem',
 '/usr/include/OpenEXR',
 '-isystem',
+'/usr/lib/gcc/x86_64-unknown-linux-gnu/5.2.0/include',
+'-isystem',
 './tests/gmock/gtest',
 '-isystem',
 './tests/gmock/gtest/include',

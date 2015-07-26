@@ -22,8 +22,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 template<typename... Args>
 void parallel_printf(const char* fmt, Args... args )
 {
-    #pragma omp critical
-    std::printf( fmt, args... ) ;
+    #pragma omp critical 
+    {
+        std::printf( fmt, args... ) ;
+    }
 }
 
 

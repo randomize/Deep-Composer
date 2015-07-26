@@ -42,10 +42,12 @@ void Image::EmplaceData(const std::string &filename) {
                         dim.y);
 
         size_t datalen = dim.x * dim.y;
+
+        {
         if (m_Data.size() != datalen) {
             parallel_printf("Allocating buffer for %ld pixels\n", datalen);
-
             m_Data.resize(datalen);
+        }
         }
 
         int dx = win.min.x;

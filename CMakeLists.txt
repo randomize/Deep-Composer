@@ -37,14 +37,14 @@ find_package(PNG REQUIRED)
 include_directories(${PNG_INCLUDE_DIR})
 
 # Boost, because it rocks
-set(Boost_USE_STATIC_LIBS        ON) # only find static libs
-set(Boost_USE_MULTITHREADED      ON)
-set(Boost_USE_STATIC_RUNTIME    OFF)
-find_package( Boost 1.40 COMPONENTS thread system REQUIRED )
-message(status "** Boost Include: ${Boost_INCLUDE_DIR}")
-message(status "** Boost Libraries: ${Boost_LIBRARY_DIRS}")
-message(status "** Boost Libraries: ${Boost_LIBRARIES}")
-include_directories( ${Boost_INCLUDE_DIR} )
+# set(Boost_USE_STATIC_LIBS        ON) # only find static libs
+# set(Boost_USE_MULTITHREADED      ON)
+# set(Boost_USE_STATIC_RUNTIME    OFF)
+# find_package( Boost 1.40 COMPONENTS thread system REQUIRED )
+# message(status "** Boost Include: ${Boost_INCLUDE_DIR}")
+# message(status "** Boost Libraries: ${Boost_LIBRARY_DIRS}")
+# message(status "** Boost Libraries: ${Boost_LIBRARIES}")
+# include_directories( ${Boost_INCLUDE_DIR} )
 
 
 
@@ -53,7 +53,8 @@ include_directories( ${Boost_INCLUDE_DIR} )
 
 set(SOURCES main.cpp Image.cpp DepthImage.cpp)
 add_executable(dcompose ${SOURCES})
-target_link_libraries(dcompose  ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES} )
+target_link_libraries(dcompose  ${CMAKE_THREAD_LIBS_INIT})
+# target_link_libraries(dcompose  ${Boost_LIBRARIES})
 target_link_libraries(dcompose  ${OPENEXR_LIBRARIES})
 target_link_libraries(dcompose ${PNG_LIBRARY})
 

@@ -23,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <omp.h>
 
 #include "DepthImage.h"
+#include "Common.h"
 
 const std::string InputColorPattern = "out.RGB_color.%04d.exr";
 const std::string InputDepthPattern = "out.VRayZDepth.%04d.exr";
@@ -36,20 +37,20 @@ std::string PatternToName(const std::string &pattern, int index) {
 }
 
 void PrintUsage() {
-    printf("Usage : dcompose <number of frames> <pattern c1> <d1> <c2> <d2> <out>\n");
+    printf("Usage : dcompose <number of frames> <pattern c1> <d1> <c2> <d2> "
+           "<out>\n");
     printf("\n");
 }
-
 
 void Test() {
 
     int i = 0;
     DepthImage im_1;
-    im_1.EmplaceData(PatternToName(InputColorPattern, i), PatternToName(InputDepthPattern, i));
+    im_1.EmplaceData(PatternToName(InputColorPattern, i),
+                     PatternToName(InputDepthPattern, i));
 
     im_1.PrintInfo();
-    im_1.SaveToPNG( "out.png" );
-
+    im_1.SaveToPNG("out.png");
 }
 
 int main(int argc, char *argv[]) {
@@ -58,10 +59,10 @@ int main(int argc, char *argv[]) {
     printf("Randy depth composer utility");
     printf("\n=============================\n");
 
+    /*Test();
+    return 0;*/
 
-    Test();
-
-    return 0;
+    // omp_set_num_threads(2);
 
     if (argc != 7) {
         PrintUsage();
@@ -74,7 +75,7 @@ int main(int argc, char *argv[]) {
     std::string pat_d1(argv[3]);
     std::string pat_c2(argv[4]);
     std::string pat_d2(argv[5]);
-    std::string pat_out(argv[5]);
+    std::string pat_out(argv[6]);
     int n_frames = 0;
 
     try {
@@ -85,15 +86,15 @@ int main(int argc, char *argv[]) {
         return -1;
     }
 
-
-
     // Process textures, each thread gets an image and
     // reuses it over and over to avoid reallocations
     DepthImage im_1, im_2;
-    int i;
-    
-    #pragma omp parallel for private(i, im_1, im_2)
-    for (i = 0; i < n_frames; ++i) {
+
+#pragma omp parallel for private(im_1, im_2)
+    for (int i = 0; i < n_frames; ++i) {
+
+        auto tid = omp_get_thread_num();
+        parallel_printf("\nThread #%d for task #%d \n\n", tid, i);
 
         // Image 1
         im_1.EmplaceData(PatternToName(pat_c1, i), PatternToName(pat_d1, i));
@@ -104,9 +105,11 @@ int main(int argc, char *argv[]) {
         // Compose
         im_1 += im_2;
 
+        // Print
+        //im_1.PrintInfo()
+
         // Save
         im_1.SaveToPNG(PatternToName(pat_out, i));
-
     }
 
     return 0;
