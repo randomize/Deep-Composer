@@ -48,7 +48,7 @@ DepthImage &DepthImage::operator+=(const DepthImage &oth) {
 
             // Oth data
             const auto &c_oth = oth.color.PixelAt(x, y);
-            const auto &d_oth = oth.color.PixelAt(x, y);
+            const auto &d_oth = oth.depth.PixelAt(x, y);
 
             // Depth test
             if (d_me.r < d_oth.r) {

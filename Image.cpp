@@ -149,10 +149,20 @@ void Image::SaveToPNG(const std::string &filename) {
 
             auto col = PixelAt(x, y);
 
-            row[x * 4] = static_cast<char>(col.r * 255);
-            row[x * 4 + 1] = static_cast<char>(col.g * 255);
-            row[x * 4 + 2] = static_cast<char>(col.b * 255);
-            row[x * 4 + 3] = static_cast<char>(col.a * 255);
+            float r = col.r * 255;
+            float g = col.g * 255;
+            float b = col.b * 255;
+            float a = col.a * 255;
+
+            if (r > 255) r = 255;
+            if (g > 255) g = 255;
+            if (b > 255) b = 255;
+            if (a > 255) a = 255;
+
+            row[x * 4] = static_cast<char>(r);
+            row[x * 4 + 1] = static_cast<char>(g);
+            row[x * 4 + 2] = static_cast<char>(b);
+            row[x * 4 + 3] = static_cast<char>(a);
         }
         png_write_row(png, row.data());
     }

@@ -102,11 +102,13 @@ int main(int argc, char *argv[]) {
         // Image 2
         im_2.EmplaceData(PatternToName(pat_c2, i), PatternToName(pat_d2, i));
 
+        // Print
+        im_1.PrintInfo();
+        im_2.PrintInfo();
+
         // Compose
         im_1 += im_2;
 
-        // Print
-        //im_1.PrintInfo()
 
         // Save
         im_1.SaveToPNG(PatternToName(pat_out, i));
