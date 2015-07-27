@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <cmath>
 
 #include <ImfRgbaFile.h>
-#include <omp.h>
+// #include <omp.h>
 
 #include "DepthImage.h"
 #include "Common.h"
@@ -90,11 +90,11 @@ int main(int argc, char *argv[]) {
     // reuses it over and over to avoid reallocations
     DepthImage im_1, im_2;
 
-#pragma omp parallel for private(im_1, im_2)
+// #pragma omp parallel for private(im_1, im_2)
     for (int i = 0; i < n_frames; ++i) {
 
-        auto tid = omp_get_thread_num();
-        parallel_printf("\nThread #%d for task #%d \n\n", tid, i);
+        // auto tid = omp_get_thread_num();
+        // parallel_printf("\nThread #%d for task #%d \n\n", tid, i);
 
         // Image 1
         im_1.EmplaceData(PatternToName(pat_c1, i), PatternToName(pat_d1, i));

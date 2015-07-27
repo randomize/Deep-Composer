@@ -27,7 +27,7 @@ DepthImage::DepthImage(const std::string &color, const std::string &depth)
             "Image depth and color channels must have matching dimensions");
     }
 
-    parallel_printf("Created depth image %s + %s \n", color, depth);
+    parallel_printf("Created depth image %s + %s \n", color.c_str(), depth.c_str());
 }
 
 DepthImage::DepthImage() : color(), depth() {}
